@@ -5,6 +5,7 @@ import 'package:watches_app/consts/app_theme.dart';
 import 'package:watches_app/controllers/provider/cart_provider.dart';
 import 'package:watches_app/controllers/provider/product_provider.dart';
 import 'package:watches_app/controllers/provider/theme_provider.dart';
+import 'package:watches_app/controllers/provider/viewed_provider.dart';
 import 'package:watches_app/controllers/provider/wishlist_provider.dart';
 import 'package:watches_app/presentation/auth/login/forget_password_screen.dart';
 import 'package:watches_app/presentation/auth/login/login_screen.dart';
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ProductProvider()),
         ChangeNotifierProvider(create: (_) => CartProvider()),
         ChangeNotifierProvider(create: (_) => WishListProvider()),
+        ChangeNotifierProvider(create: (_) => ViewedProvider()),
       ],
       child: Consumer<ThemeProvider>(
         builder: (BuildContext context, themeProvider, Widget? child) {

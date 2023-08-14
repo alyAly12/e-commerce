@@ -1,6 +1,8 @@
 import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
+import 'package:provider/provider.dart';
+import 'package:watches_app/controllers/provider/viewed_provider.dart';
 
 import '../../consts/assets_manager.dart';
 import '../../widgets/app_animated_name.dart';
@@ -13,8 +15,8 @@ class ViewedRecentlyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const bool _isEmpty = false;
-    return  _isEmpty
+    final viewedProvider = Provider.of<ViewedProvider>(context);
+    return  viewedProvider.getViewedList.isEmpty
         ? Scaffold(
         body: EmptyScreen(
           title: 'Whoops!',
@@ -29,7 +31,7 @@ class ViewedRecentlyScreen extends StatelessWidget {
           leading: IconButton(onPressed: (){
             Navigator.canPop(context)?Navigator.pop(context):null;
           }, icon: const Icon(Icons.arrow_back_ios)),
-          title: const AppAnimatedName(name: 'History (5)'),
+          title:  AppAnimatedName(name: 'History (${viewedProvider.getViewedList.length})'),
           actions: [
             IconButton(
                 onPressed: () {},
@@ -41,12 +43,12 @@ class ViewedRecentlyScreen extends StatelessWidget {
         ),
         body: DynamicHeightGridView(
             builder: (context, index) {
-              return const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: ProductWidget(productId: '',),
+              return  Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ProductWidget(productId: viewedProvider.getViewedList.values.toList()[index].productId,),
               );
             },
-            itemCount: 10,
+            itemCount: viewedProvider.getViewedList.length,
             crossAxisCount: 2)
     );
   }

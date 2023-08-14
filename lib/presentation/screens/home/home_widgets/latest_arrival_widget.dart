@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:watches_app/models/product_model.dart';
 import 'package:watches_app/widgets/custom_bag_button.dart';
 import 'package:watches_app/widgets/custom_heart_button.dart';
+import '../../../../controllers/provider/viewed_provider.dart';
 import '../../../../widgets/custom_subtitle_widget.dart';
 import '../../../../widgets/custom_text_widget.dart';
 import '../../../inner_screens/product_detail_screen.dart';
@@ -14,10 +15,11 @@ class LatestArrivalWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final productModel =Provider.of<ProductModel>(context);
-
+    final viewedProvider = Provider.of<ViewedProvider>(context);
     Size size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () async {
+        viewedProvider.addProductToHistory(productId: productModel.productId);
         await Navigator.pushNamed(context, ProductDetailScreen.id,arguments: productModel.productId);
       },
       child: SizedBox(

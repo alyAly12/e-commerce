@@ -7,6 +7,7 @@ import 'package:watches_app/widgets/custom_heart_button.dart';
 import 'package:watches_app/widgets/custom_subtitle_widget.dart';
 import 'package:watches_app/widgets/custom_text_widget.dart';
 import '../../controllers/provider/product_provider.dart';
+import '../../controllers/provider/viewed_provider.dart';
 
 
 class ProductWidget extends StatelessWidget {
@@ -17,11 +18,12 @@ class ProductWidget extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     final productProvider =Provider.of<ProductProvider>(context);
     final getCurrentProduct = productProvider.findById(productId);
-
+    final viewedProvider = Provider.of<ViewedProvider>(context);
     return getCurrentProduct == null ?const SizedBox.shrink() :Padding(
       padding: const EdgeInsets.all(3.0),
       child: GestureDetector(
         onTap: () async {
+          viewedProvider.addProductToHistory(productId: getCurrentProduct.productId);
           await Navigator.pushNamed(context, ProductDetailScreen.id,arguments: getCurrentProduct.productId);
         },
         child: Column(
